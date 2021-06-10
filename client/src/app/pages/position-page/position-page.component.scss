@@ -1,0 +1,42 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: rgba(255,255,255,.9);
+    box-shadow: 0 2px 0 0 rgba(0,0,0,.1);
+  }
+}
+
+.center {
+  text-align: center;
+}
+
+.green {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+
+.pink {
+  background-color: #e91e63;
+  color: #ffffff;
+}
+
+.options {
+  button {
+    min-width: 45px;
+    padding: 0;
+  }
+  & > *:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.ellipsis {
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

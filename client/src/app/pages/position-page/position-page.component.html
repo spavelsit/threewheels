@@ -1,0 +1,45 @@
+<table #matTable mat-table [dataSource]="positionService.positions">
+  <ng-container matColumnDef="article">
+    <th class="center" style="width: 170px;" mat-header-cell *matHeaderCellDef> Артикул </th>
+    <td class="center" mat-cell *matCellDef="let element"> {{element.article ? element.article : '&mdash;'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Наименование </th>
+    <td class="ellipsis" mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="cost">
+    <th class="center" style="width: 150px;" mat-header-cell *matHeaderCellDef> Цена закупки </th>
+    <td class="center" mat-cell *matCellDef="let element"> {{element.cost.toLocaleString()}} руб</td>
+  </ng-container>
+
+  <ng-container matColumnDef="cost_of_sale">
+    <th class="center" style="width: 150px;" mat-header-cell *matHeaderCellDef> Цена продажи </th>
+    <td class="center" mat-cell *matCellDef="let element"> {{element.cost_of_sale.toLocaleString()}} руб </td>
+  </ng-container>
+
+  <ng-container matColumnDef="quantity">
+    <th class="center" style="width: 110px;" mat-header-cell *matHeaderCellDef> Количество </th>
+    <td class="center" mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="options">
+    <th class="center" style="width: 170px;" mat-header-cell *matHeaderCellDef> Опции </th>
+    <td class="options center" mat-cell *matCellDef="let element">
+      <button matTooltip="Распечатать QR-Code" mat-flat-button color="primary" (click)="printQRCode(element)"><mat-icon>qr_code</mat-icon></button>
+      <button matTooltip="Редактировать товар" mat-flat-button class="green" (click)="editPositionModalOpen(element)"><mat-icon>create</mat-icon></button>
+      <button matTooltip="Добавить в корзину" mat-flat-button class="pink" (click)="addPositonToCart(element)"><mat-icon>add_shopping_cart</mat-icon></button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['article', 'name', 'cost', 'cost_of_sale', 'quantity', 'options']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['article', 'name', 'cost', 'cost_of_sale', 'quantity', 'options'];"></tr>
+</table>
+<mat-progress-bar mode="indeterminate" *ngIf="positionService.loaderMore"></mat-progress-bar>
+
+<h2 class="preloader-center" *ngIf="positionService.positions.length === 0 && !positionService.preloader">Список товаров пуст</h2>
+
+<div class="preloader-center" *ngIf="positionService.preloader">
+  <mat-spinner></mat-spinner>
+</div>

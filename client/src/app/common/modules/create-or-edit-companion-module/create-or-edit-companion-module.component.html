@@ -1,0 +1,34 @@
+<form [formGroup]="form">
+  <h1 mat-dialog-title>
+    <span *ngIf="data.type === 'edit'">Изменить данные сотрудника</span>
+    <span *ngIf="data.type === 'create'">Добавить сотрудника</span>
+  </h1>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>ФИО сотрудника:</mat-label>
+      <input matInput formControlName="full_name" name="companion_full_name">
+    </mat-form-field>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Номер телефона:</mat-label>
+        <input matInput formControlName="phone" name="companion_phone" prefix="+7 " mask="(000) 000-00-00" [dropSpecialCharacters]="false">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Процент с работ:</mat-label>
+        <input matInput type="number" formControlName="percent" name="companion_percent">
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <div class="left">
+      <button mat-flat-button type="button" color="warn" *ngIf="data.type === 'edit'">Удалить сотрудника</button>
+    </div>
+    <div class="right">
+      <button mat-button type="button" mat-dialog-close>Закрыть</button>
+      <button mat-flat-button (click)="onSubmit()" color="primary" [disabled]="form.disabled || form.invalid">
+        <span *ngIf="data.type === 'edit'">Изменить</span>
+        <span *ngIf="data.type === 'create'" >Добавить</span>
+      </button>
+    </div>
+  </div>
+</form>

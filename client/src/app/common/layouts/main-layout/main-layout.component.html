@@ -1,0 +1,44 @@
+<mat-drawer-container>
+  <mat-drawer mode="side" opened>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <div class="total-block" *ngIf="preloader">
+          Закупочная стоимость товара: <br>
+          <span>{{sharedService.totalPrice.toLocaleString()}} руб</span>
+        </div>
+        <mat-progress-bar mode="indeterminate" *ngIf="!preloader"></mat-progress-bar>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="mnu-block">
+      <div class="top">
+        <ul class="sidenav-mnu__items">
+          <li class="sidenav-mnu__item" *ngFor="let link of sharedService.links" routerLinkActive="active">
+            <span class="sidenav-mnu__name" routerLink="/{{link.url}}">{{link.name}}</span>
+            <button class="sidenav-mnu__button" *ngIf="link.has_button" (click)="linkModalOpen(link.url)" mat-raised-button color="primary" matTooltip="{{link.tooltip_button}}" matTooltipPosition="after"><mat-icon>add</mat-icon></button>
+          </li>
+        </ul>
+      </div>
+      <div class="bottom">
+        <button mat-raised-button color="warn" class="logout" (click)="logout()">Выйти</button>
+      </div>
+    </div>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <mat-toolbar class="toolbar-content">
+      <mat-toolbar-row>
+        <div class="search">
+          <label class="icon-search" for="search"><mat-icon>search</mat-icon></label>
+          <input id="search"  matInput placeholder="Поиск по наименованию или артикулу товара" [ngClass]="{'active': sharedService.search.string.length !== 0}" [(ngModel)]="sharedService.search.string" (change)="inputSearch($event)">
+          <mat-icon matTooltip="Очистить строку поиска" class="icon-close" *ngIf="sharedService.search.string.length !== 0" (click)="clearSearchField()">close</mat-icon>
+        </div>
+        <div class="buttons">
+          <button mat-flat-button (click)="openModalOrder()" matTooltip="Открыть корзину" matTooltipPosition="before"><mat-icon matBadge="{{orderService.positionToOrder.length}}" matBadgePosition="above after">shopping_cart</mat-icon></button>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+
+</mat-drawer-container>
+
