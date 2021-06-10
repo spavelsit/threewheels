@@ -1,0 +1,10 @@
+<div class="positions-filter">
+    <div class="form-line">
+      <div class="form-group">
+        <input class="input-field input-field--big" placeholder="Наименования товара или артикул" [(ngModel)]="text" (input)="onInput($event)">
+      </div>
+      <div class="form-group">
+        <button class="button" [ngClass]="{'button--red': filtered}" [disabled]="!filtered" (click)="onClear()">Очистить</button>
+      </div>
+    </div>
+  </div>

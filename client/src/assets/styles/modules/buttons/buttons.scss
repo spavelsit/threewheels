@@ -1,0 +1,23 @@
+.button {
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: rgb(2, 52, 102);
+  color: #fff;
+  transition: all .3s linear;
+  &--red {
+    background-color: #a20000;
+  }
+  &--green {
+    background-color: green;
+  }
+  &:hover {
+    opacity: .8;
+  }
+  &:disabled {
+    cursor: default;
+    opacity: .6;
+  }
+}

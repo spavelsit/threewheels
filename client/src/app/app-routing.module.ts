@@ -1,26 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthLayoutComponent } from './common/layouts/auth-layout/auth-layout.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
-import { MainLayoutComponent } from './common/layouts/main-layout/main-layout.component';
-import { ImplementPageComponent } from './pages/implement-page/implement-page.component';
-import { PositionPageComponent } from './pages/position-page/position-page.component';
-import { ActiveOrderPageComponent } from './pages/active-order-page/active-order-page.component';
-import { CompanionPageComponent } from './pages/companion-page/companion-page.component';
-import { AuthGuard } from './common/classes/auth.guard';
-
+import { SiteLayoutComponent } from './shared/layouts/site-layout/site-layout.component';
+import { AuthGuard } from './shared/classes/auth.guard';
+import { HistoryPageComponent } from './pages/history-page/history-page.component';
+import { PositionsPageComponent } from './pages/positions-page/positions-page.component';
+import {OverviewPageComponent} from "./pages/overview-page/overview-page.component";
+import {ImplementsPageComponent} from "./pages/implements-page/implements-page.component";
 
 const routes: Routes = [
-  {path: '', component: AuthLayoutComponent, children: [
+  {path: '', children: [
     {path: '', redirectTo: '/login', pathMatch: 'full'},
-    {path: 'login', component: LoginPageComponent}
+    {path: 'login', component: LoginPageComponent},
   ]},
 
-  {path: '', component: MainLayoutComponent, canActivate: [AuthGuard], children: [
-    {path: 'implements', component: ImplementPageComponent},
-    {path: 'positions', component: PositionPageComponent},
-    {path: 'active-orders', component: ActiveOrderPageComponent},
-    {path: 'companions', component: CompanionPageComponent}
+  {path: '', component: SiteLayoutComponent, canActivate: [AuthGuard], children: [
+    {path: 'home', component: OverviewPageComponent},
+    {path: 'implements', component: ImplementsPageComponent},
+    {path: 'history', component: HistoryPageComponent},
+    {path: 'positions', component: PositionsPageComponent},
   ]}
 ];
 

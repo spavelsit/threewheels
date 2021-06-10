@@ -1,0 +1,115 @@
+.header {
+  background-color: $bg-header;
+  height: 60px;
+  display: flex;
+  &__block {
+    &-logo {
+      width: $sidebar-width;
+      flex-shrink: 0;
+    }
+    &-nav {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+  }
+
+  &-logo {
+    &__link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: $white;
+      text-transform: uppercase;
+      text-decoration: none;
+      height: 60px;
+      font-size: 20px;
+      line-height: 20px;
+      border-right: 1px solid $border-color;
+    }
+    &__phone {
+      font-size: 16.6px;
+    }
+  }
+
+  &-nav {
+    &__body {
+      display: flex;
+      width: 100%;
+    }
+    &__toggle {
+      position: absolute;
+      top: 60px;
+      width: 500px;
+      padding: 20px;
+      background-color: $white;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+      left: -505px;
+      z-index: 10;
+      transition: all .5s linear;
+      &.active {
+        left: 0px;
+      }
+      .toggle {
+        &-step {
+          display: flex;
+          flex-direction: column;
+          & > *:not(:last-child) {
+            margin-bottom: 10px;
+          }
+          &__title {
+            text-align: center;
+          }
+          &__line {
+            display: flex;
+            & > *:not(:last-child) {
+              margin-right: 5px;
+            }
+          }
+          &__value {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+    &__items {
+      display: flex;
+      width: 100%;
+      &.nav-items__last {
+        justify-content: flex-end;
+        .header-nav__item:first-child {margin-left: 0px;}
+      }
+    }
+    &__item,
+    &__link {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      cursor: pointer;
+      color: $white;
+      transition:  all .3s linear;
+      &:hover {
+        opacity: .3;
+      }
+    }
+    &__item {
+      &:first-child {margin-left: 30px;}
+      margin-right: 30px;
+    }
+    &__icon {
+      fill: $white;
+      &.active {
+        opacity: .3;
+      }
+      @include size(18px);
+    }
+    &__title {
+      margin-top: 5px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+  }
+
+}

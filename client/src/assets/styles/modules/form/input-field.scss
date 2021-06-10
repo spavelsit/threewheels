@@ -1,0 +1,46 @@
+.input-field {
+  border-radius: 4px;
+  height: 40px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+  cursor: pointer;
+  transition: all .3s linear;
+  &.select {
+    background: url(assets/images/general/arrow.svg) 98% / 3% no-repeat #fff;
+    appearance: none;
+  }
+  &--big {
+    width: 300px;
+  }
+  &::placeholder {
+    color: #023466;
+  }
+  &.error {
+    border: 1px solid red;
+    color: red;
+    &::placeholder {
+      color: red;
+    }
+  }
+}
+
+.datepicker-select {
+  border-radius: 4px;
+  height: 40px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+  cursor: pointer;
+  transition: all .3s linear;
+}
+
+.selects-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+}
+.select-wrapper.select-month {
+  margin-right: 5px;
+}

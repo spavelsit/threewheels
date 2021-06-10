@@ -1,54 +1,54 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/common/services/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { AuthService } from '../../shared/services/auth.service';
+import { MaterialService } from 'src/app/shared/classes/material.service';
 
 @Component({
   selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss']
+  templateUrl: './login-page.component.html'
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
 
-  form: FormGroup
-  matcher = new MyErrorStateMatcher();
+  form: FormGroup;
+  aSub: Subscription;
 
-  oSub: Subscription
+  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) { }
+  ngOnInit() {
 
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private snackBar: MatSnackBar
-  ) { }
+    if (this.auth.isAuthenticated()) {
+      this.router.navigate(['/home']);
+    }
 
-  ngOnInit(): void {
     this.form = new FormGroup({
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', [Validators.required])
-    })
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(16)])
+    });
+
+    this.route.queryParams.subscribe((params: Params) => {
+      if (params.accessDenied) {
+        MaterialService.toast('Для начала нужно авторизироваться');
+      } else if (params.sessionFailed) {
+        MaterialService.toast('Пожалуйста войдите в систему заного');
+      }
+    });
   }
 
-  onSubmit(): void {
-    this.oSub = this.authService.login(this.form.value).subscribe(callback => {
-      this.authService.setToken(callback.auth_token)
-      this.router.navigate(['/positions'])
-    }, (err) => {
-      this.snackBar.open(err.error.non_field_errors[0])
-    })
-    
+  onSubmit() {
+    this.form.disable();
+    this.aSub = this.auth.login(this.form.value).subscribe(
+      () => this.router.navigate(['/home']),
+      error => {
+        MaterialService.toast(error.error.message);
+        this.form.enable();
+      }
+    );
   }
 
   ngOnDestroy() {
-    if (this.oSub) this.oSub.unsubscribe()
+    if (this.aSub) {
+      this.aSub.unsubscribe();
+    }
   }
 }

@@ -1,0 +1,12 @@
+<div class="positions wrapper-page" *ngIf="!reloading; else loader">
+  <app-history-filter *ngIf="orders.length !== 0"></app-history-filter>
+  <app-history-list [orders]="orders" *ngIf="orders.length !== 0; else empty"></app-history-list>
+
+  <ng-template #empty>
+    <div class="wrapper-empty">Список выполнненых заказов пуст</div>
+  </ng-template>
+</div>
+
+<ng-template #loader>
+  <app-preloader class="preloader preloader-page"></app-preloader>
+</ng-template>

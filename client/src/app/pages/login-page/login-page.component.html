@@ -1,25 +1,25 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <mat-card class="auth-card">
-    <mat-card-header>
-      <div mat-card-avatar><mat-icon class="auth-card__icon">account_circle</mat-icon></div>
-      <mat-card-title>Авторизация</mat-card-title>
-      <mat-card-subtitle>Только для администраторов</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-form-field appearance="outline">
-        <mat-label>Логин:</mat-label>
-        <input matInput formControlName="username" [errorStateMatcher]="matcher" name="username">
-        <mat-error>Заполните поле логин...</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Пароль:</mat-label>
-        <input matInput type="password" formControlName="password" [errorStateMatcher]="matcher" name="password">
-        <mat-error>Заполните поле пароль...</mat-error>
-      </mat-form-field>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button type="button">Забыли пароль?</button>
-      <button mat-flat-button color="primary" [disabled]="form.disabled || form.invalid">Войти</button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+<div class="login-page">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+    <div class="form__body">
+      <div class="form-line">
+        <div class="form-group">
+          <label class="form-group__label">Почта:</label>
+          <input type="email" formControlName="email" placeholder="exemple@mail.ru" class="input-field" [ngClass]="{'error': form.get('email').invalid && form.get('email').touched}">
+        </div>
+      </div>
+      <div class="form-line">
+        <div class="form-group">
+          <label class="form-group__label">Пароль:</label>
+          <input type="password" formControlName="password" placeholder="*******" class="input-field" [ngClass]="{'error': form.get('password').invalid && form.get('password').touched}">
+        </div>
+      </div>
+    </div>
+    <div class="form__footer">
+      <div class="form-line">
+        <div class="form-group">
+          <button class="button" [disabled]="form.invalid || form.disabled">Войти</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

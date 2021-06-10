@@ -1,0 +1,82 @@
+<div class="print">
+  <div class="print-header">
+    <h2 class="print-header__title">
+      <span *ngIf="variables.printItem.type === 'history'">Акт выполненных услуг</span>
+      <span *ngIf="variables.printItem.type === 'new' || variables.printItem.type === 'edit'">Заказ-наряд</span>
+      №{{variables.printItem.item.order}}
+      от
+      <span *ngIf="variables.printItem.type === 'history' || variables.printItem.type === 'edit'">{{variables.printItem.item.date | date : 'dd.MM.yyyy'}}</span>
+      <span *ngIf="variables.printItem.type === 'new'">{{ date | date : 'dd.MM.yyyy'}}</span>
+      .
+    </h2>
+    <ul class="print-header__items">
+      <li class="print-header__item"><span class="print-header__descr">Наименование исполнителя:</span><span
+          class="print-header__value print-header__value--upper">ооо &laquo;Три колеса&raquo;</span></li>
+      <li class="print-header__item"><span class="print-header__descr">Номер телефона исполнителя:</span><span
+          class="print-header__value">+7 (999) 837-97-28</span></li>
+    </ul>
+  </div>
+  <div class="print-body">
+    <div class="print-body__block" *ngIf="product.list.length !== 0">
+      <table class="print-table">
+        <caption class="print-table__title">
+          <span *ngIf="variables.printItem.type === 'new' || variables.printItem.type === 'edit'">Перечень заказанных запчастей</span>
+          <span *ngIf="variables.printItem.type === 'history'">Перечень проданных запчастей</span>
+        </caption>
+        <thead class="print-table__thead">
+          <tr class="print-thead__item">
+            <th class="print-thead__number">№</th>
+            <th class="print-thead__name">Наименование</th>
+            <th class="print-thead__quantity">Колличество</th>
+            <th class="print-thead__total">Сумма</th>
+          </tr>
+        </thead>
+        <tfoot class="print-table__tfoot">
+          <tr class="print-tfoot__item">
+            <td class="print-tfoot__total" colspan="3">Итого:</td>
+            <td class="print-tfoot__cost">{{product.calc()}}</td>
+          </tr>
+        </tfoot>
+        <tbody class="print-table__tbody">
+          <tr class="print-tbody__item" *ngFor="let item of product.list; let i = index">
+            <td class="print-tbody__number">{{i + 1}}</td>
+            <td class="print-tbody__name">{{item.name}}</td>
+            <td class="print-tbody__quantity">{{item.quantity}}</td>
+            <td class="print-tbody__total">{{item.quantity * item.cost}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="print-body__block">
+      <table class="print-table">
+        <caption class="print-table__title">Расчет стоимости</caption>
+        <thead class="print-table__thead">
+          <tr class="print-thead__item">
+            <th class="print-thead__name">Наименование</th>
+            <th class="print-thead__total">Скидка</th>
+            <th class="print-thead__total print-thead__total--required">Сумма</th>
+          </tr>
+        </thead>
+        <tfoot class="print-table__tfoot">
+          <tr class="print-tfoot__item">
+            <td class="print-tfoot__total" colspan="">Итого:</td>
+            <td class="print-tfoot__sale">{{sale(product.calc() + service.calc())}}</td>
+            <td class="print-tfoot__cost">{{product.calc() + - sale(product.calc())}}</td>
+          </tr>
+        </tfoot>
+        <tbody class="print-table__tbody">
+          <tr class="print-tbody__item" *ngIf="product.list.length !== 0">
+            <td class="print-tbody__name print-tbody__name--big">Запчасти</td>
+            <td class="print-tbody__sale">{{sale(product.calc())}}</td>
+            <td class="print-tbody__total">{{product.calc()}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="print-footer"><span class="print-footer__descr">При выявлении скрытых дефектов, общая сумма наряд-заказа
+      может быть изменена по предворительному согласованию с клиентом</span>
+    <div class="print-footer__signature"><span class="print-signature">Исполнитель</span><span
+        class="print-signature">Заказчик</span></div>
+  </div>
+</div>

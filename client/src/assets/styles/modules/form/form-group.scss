@@ -1,0 +1,36 @@
+.form-group {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  flex: 1;
+  &.form-group {
+    &--required {
+      .form-group {
+        &__label {
+          &::after {
+            content: '*';
+            color: $warning-color;
+            position: absolute;
+            right: -10px;
+            font-size: 18px;
+            top: -5px;
+          }
+        }
+      }
+    }
+  }
+  &__label {
+    color: #ccc;
+    position: relative;
+    font-size: 12px;
+    letter-spacing: .65px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+}
+.form-group-submit {
+  display: flex;
+  & > * {
+    &:not(:last-child) {margin-right: 20px;}
+  }
+}

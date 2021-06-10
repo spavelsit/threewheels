@@ -1,0 +1,124 @@
+<header class="header">
+  <div class="header__block-logo"><a class="header-logo__link" href="/"><span class="header-logo__title">
+        Поддержка</span><span class="header-logo__phone">+7 (925) 537-84-81 </span></a></div>
+  <div class="header__block-nav">
+    <ul class="header-nav__items">
+      <li class="header-nav__item" (click)="onToggle('product')">
+        <svg class="svg-sprite-icon icon-chart header-nav__icon">
+          <use xlink:href="assets/images/svg/symbol/sprite.svg#product"></use>
+        </svg><span class="header-nav__title">Добавить товар</span>
+      </li>
+    </ul>
+    <ul class="header-nav__items nav-items__last">
+      <li class="header-nav__item"><a class="header-nav__link" (click)="logout($event)">
+          <svg class="svg-sprite-icon icon-logout header-nav__icon">
+            <use xlink:href="assets/images/svg/symbol/sprite.svg#logout"></use>
+          </svg><span class="header-nav__title">Выйти</span></a></li>
+    </ul>
+    <div class="header-nav__toggle">
+      <div class="header-nav__toggle-registration" *ngIf="!create">
+        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form__body">
+            <div class="form-line">
+              <div class="form-group form-group--required">
+                <label class="form-group__label">
+                  Наименования товара:
+                </label>
+                <input class="input-field" id="autocomplute" name="autocomplute"
+                  placeholder="Масло моторное полусинтетическое Shell Helix HX7 10W-40, 4л"
+                  formControlName="name" [ngClass]="{error: form.get('name').invalid && form.get('name').touched}">
+              </div>
+            </div>
+            <div class="form-line" *ngIf="type === 'product'">
+              <div class="form-group">
+                <label class="form-group__label">Артикул:</label>
+                <input class="input-field" name="article" id="article" placeholder="550040315" formControlName="article"
+                  [ngClass]="{error: form.get('article').invalid && form.get('article').touched}">
+              </div>
+              <div class="form-group">
+                <label class="form-group__label">Колличество:</label>
+                <input class="input-field" placeholder="1" formControlName="quantity"
+                  [ngClass]="{error: form.get('quantity').invalid && form.get('quantity').touched}">
+              </div>
+            </div>
+            <div class="form-line">
+              <div class="form-group" *ngIf="type === 'product'">
+                <label class="form-group__label">Цена закупки:</label>
+                <input class="input-field" placeholder="1000 руб." formControlName="cost"
+                  [ngClass]="{invalid: form.get('cost').invalid && form.get('cost').touched}">
+              </div>
+              <div class="form-group">
+                <label
+                  class="form-group__label">Цена продажи:</label>
+                <input class="input-field" placeholder="1300 руб" formControlName="orderCost"
+                  [ngClass]="{invalid: form.get('orderCost').invalid && form.get('orderCost').touched}">
+              </div>
+            </div>
+            <div class="form-line">
+              <div class="form-group">
+                  <label class="form-group__label">Выберите тип товара</label>
+                  <select class="select input-field" formControlName="type">
+                    <option value="product">Товар</option>
+                    <option value="colors">Покраска</option>
+                  </select>
+              </div>
+            </div>
+          </div>
+          <div class="form__footer">
+            <div class="form-line">
+              <div class="form-group">
+                <input class="button button--red" type="button" value="Отмена" [disabled]="form.disabled"
+                  (click)="onClose()">
+              </div>
+              <div class="form-group">
+                <input class="button" type="submit" value="Добавить товар"
+                  [disabled]="form.invalid || form.disabled">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="header-nav__toggle-success" *ngIf="create">
+        <div class="toggle-step">
+          <h2 class="toggle-step__title">Товар успешно сформирован</h2>
+          <div class="toggle-step__line"><span class="toggle-step__name">Наименования товара:</span><span
+              class="toggle-step__value">{{form.get('name').value}}</span></div>
+          <div class="toggle-step__line"><span class="toggle-step__name">Артикул:</span><span
+              class="toggle-step__value">{{form.get('article').value}}</span></div>
+          <div class="toggle-step__line"><span class="toggle-step__name">Колличество:</span><span
+              class="toggle-step__value">{{form.get('quantity').value}}</span></div>
+          <div class="toggle-step__line"><span class="toggle-step__name">Цена закупки:</span><span
+              class="toggle-step__value">{{form.get('cost').value}}</span></div>
+          <div class="toggle-step__line"><span class="toggle-step__name">Цена продажи:</span><span
+              class="toggle-step__value">{{form.get('orderCost').value}}</span></div>
+          <div class="toggle-step__line" *ngIf="!success">
+            <button class="button button--red" (click)="onPrev()" [disabled]="form.disabled">Назад</button>
+            <button class="button button--green" (click)="createPosition()">Принять</button>
+          </div>
+          <div class="toggle-step__line" *ngIf="success">
+              <button class="button button--red" (click)="onClose()" [disabled]="form.disabled">Закрыть</button>
+            <button class="button button--green" (click)="printQrCode()" [disabled]="form.disabled">Распечатать QR-code</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="content">
+  <div class="sidebar">
+    <div class="sidebar__block-nav">
+      <ul class="sidebar-nav__items">
+        <li class="sidebar-nav__item" *ngFor="let link of array.links">
+          <a class="sidebar-nav__link" [routerLink]="[link.url]" [queryParams]="link.queryParams"
+            routerLinkActive="active">{{link.name}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrapper-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<app-print *ngIf="array.printItem"></app-print>
+<app-qrcode *ngIf="array.printQRCode"></app-qrcode>

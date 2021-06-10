@@ -1,0 +1,271 @@
+$transition: .5s;
+
+.cart {
+  position: absolute;
+  z-index: 2;
+  right: -500px;
+  top: 0;
+  background: $white;
+  box-shadow: 0 3px 3px #8c8b8b;
+  transition: all $transition linear;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1px;
+  width: 500px;
+  &-module.active {
+    .cart {
+      right: 0;
+      &-button {
+        right: 510px;
+        background-color: #a20000;
+      }
+    }
+  }
+  &-button {
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: $link-color;
+    transition: all $transition linear;
+    border-radius: 100%;
+    padding: 10px;
+    &__icon {
+      @include size(25px);
+      fill: $white;
+    }
+  }
+  &-header {
+    display: flex;
+    height: 30px;
+    &__button {
+      background-color: $bg-header;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 33.333%;
+      border: none;
+      color: $white;
+      cursor: pointer;
+      transition: all .3s linear;
+      white-space: nowrap;
+      &:hover {
+        opacity: .9;
+      }
+      &:disabled {
+        opacity: .4;
+        cursor: default;
+      }
+      &.active {
+        background-color: $white;
+        color: $bg-header;
+        cursor: default;
+      }
+      &.disabled {
+        color: grey;
+        opacity: .8;
+        cursor: default;
+      }
+      &:not(:last-child){
+        margin-right: 2px;
+      }
+    }
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    &__wrapper {
+      flex-grow: 1;
+      height: calc(100vh - 138px);
+      overflow-y: auto;
+      padding: 10px;
+    }
+    &__basket {
+      padding: 0 0 20px 0;
+    }
+    &__total {
+      display: flex;
+      flex-direction: row;
+      padding: 10px;
+      align-items: center;
+      border-top: 1px solid #CCC;
+      & > *:not(:last-child) {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  &-basket {
+    &__table {
+      text-align: center;
+      width: 100%;
+      border-collapse: collapse;
+      table-layout:fixed;
+      font-size: 12px;
+      td, th {
+        padding: .5em;
+      }
+    }
+    &-title {
+      &__price {width: 80px;}
+      &__quantity {width: 50px;}
+      &__remove {width: 30px;}
+      &__type {width: 50px;}
+      th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: rgba($color: #ffffff, $alpha: .9);
+        box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, .3);
+        &:first-child {
+          left: 0;
+        }
+      }
+    }
+
+    &-item {
+      border-bottom: 1px solid #CCC;
+      cursor: default;
+      &__icon {
+        @include size(16px);
+      }
+      &__remove {
+        width: 100%;
+        cursor: pointer;
+        transition: all .3s linear;
+        &:hover {
+          opacity: .3;
+        }
+      }
+      &__image img {
+        width: 100%;
+      }
+      &__name {
+        overflow-x: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: left;
+      }
+      &__quantity {
+        &-input {
+          width: 100%;
+          border: none;
+          background: none;
+          border-bottom: 1px solid #CCC;
+          padding: 5px 0px 5px 5px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+
+  &-registration {
+    &__select {
+      &-one {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  &-result {
+    &__title {text-align: center;}
+    &__line {
+      display: flex;
+      flex-direction: row;
+      margin-top: 10px;
+      & > *:not(:last-child) {margin-right: 25px;}
+      &.hide {
+        display: none;
+      }
+      &.show {
+        display: flex;
+
+      }
+    }
+    &__bold {
+      font-weight: bold;
+    }
+    &__button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50%;
+      height: 40px;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: all .3s linear;
+      &:hover {
+        opacity: .8;
+      }
+      &--big {
+        width: 100%;
+      }
+      &--true {
+        background-color: green;
+      }
+      &--false {
+        background-color: #a10000;
+      }
+    }
+  }
+
+  &-total {
+    &__qrcode {
+      transition: all .3s linear;
+      color: #023466;
+      cursor: pointer;
+      &-input {
+        cursor: default;
+        width: 0px;
+        opacity: 0;
+      }
+      .cart-total__icon {
+        @include size(25px)
+      }
+      &.active {
+        color: #a20000;
+        .cart-total__icon {
+          fill: #a20000;
+          @include size(25px)
+        }
+      }
+    }
+    &__button {
+      margin-left: auto;
+      transition: all .3s linear;
+      cursor: pointer;
+      border: none;
+      background-color: #fff;
+      &:hover {
+        opacity: .8;
+      }
+    }
+    &__icon {
+      &.next {
+        animation-name: animateArrow;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        margin-right: 10px;
+      }
+      &.close {
+        display: none;
+      }
+      fill: $bg-header;
+      @include size(20px);
+    }
+  }
+}
+@keyframes animateArrow {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}

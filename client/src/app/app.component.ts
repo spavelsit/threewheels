@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './common/services/auth.service';
+import { AuthService } from './shared/services/auth.service';
 
-const newLocal = '<router-outlet></router-outlet>';
 @Component({
   selector: 'app-root',
-  template: newLocal,
+  template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private authService: AuthService
-  ) {}
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
-    const token = localStorage.getItem('auth-token')
+    const candidateToken = localStorage.getItem('auth-token');
 
-    if (token !== null) this.authService.setToken(token)
+    if (candidateToken !== null) {
+      this.auth.setToken(candidateToken);
+    }
   }
 }

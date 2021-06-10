@@ -1,0 +1,13 @@
+<div class="positions-filter">
+  <div class="form-line">
+    <div class="form-group">
+      <input class="input-field" placeholder="Дата, начало" name="start" #start>
+    </div>
+    <div class="form-group">
+      <input class="input-field" placeholder="Дата, конец" name="end" #end >
+    </div>
+    <div class="form-group">
+      <button class="button" style="white-space: nowrap;" (click)="submitFilter()" [disabled]="!isValid">Сформировать отчет</button>
+    </div>
+  </div>
+</div>
