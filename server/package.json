@@ -4,7 +4,8 @@
   "description": "",
   "main": "threewheels.js",
   "scripts": {
-    "start": "nodemon threewheels.js"
+    "server": "nodemon threewheels.js",
+    "dev": "concurrently \"npm run server\" \"npm run start --prefix ../client\""
   },
   "author": "",
   "license": "ISC",

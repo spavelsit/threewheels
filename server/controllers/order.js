@@ -29,10 +29,9 @@ module.exports.all_order = async (req, res) => {
 module.exports.create_order = async (req, res) => {
   try {
     const
-      last_order = await Order.find().sort({order: -1}).limit(1);
+      last_order = await Order.find().sort({order: -1}).limit(1),
       max_order  = last_order[0] ? last_order[0].order : 0;
 
-      console.log(max_order.order);
     const order = await new Order({
       order: max_order + 1,
       sale: req.body.sale,
@@ -64,7 +63,7 @@ module.exports.update_order = async (req, res) => {
 module.exports.remove_order = async (req, res) => {
   try {
     await Order.remove({_id: req.params.id});
-    res.status(202);
+    res.status(202).json({status: true});
   } catch (e) {
     error_handler(res, e);
   }

@@ -9,12 +9,12 @@ const config = require('./common/config');
 const
   authentication_router = require('./routes/authentication'),
   position_router       = require('./routes/position'),
-  order_router          = require('./routes/order'),
-  callback_router       = require('./routes/callback');
+  client_router       = require('./routes/client'),
+  order_router          = require('./routes/order');
 
 const app = express();
 
-mongoose.connect(`mongodb://${config.db.username}:${config.db.password}@${config.db.host}/${config.db.db_name}`, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true})
+mongoose.connect(`mongodb://${config.db.username}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.db_name}`, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false})
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
@@ -29,8 +29,8 @@ app.use(require('cors')());
 
 app.use('/api/authentication', authentication_router);
 app.use('/api/positions', position_router);
+app.use('/api/client', client_router);
 app.use('/api/order', order_router);
-app.use('/api/callback', callback_router);
 
 // app.use(express.static('../client'));
 //

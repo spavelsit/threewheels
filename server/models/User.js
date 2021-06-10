@@ -3,9 +3,7 @@ const
   Schema    = mongoose.Schema;
 
 module.exports = mongoose.model('users', new Schema({
-  full_name: {
-    type: String,
-  },
+  full_name: { type: String },
   email: {
     type: String,
     required: true,
@@ -23,7 +21,5 @@ module.exports = mongoose.model('users', new Schema({
     type: String,
     default: null,
   },
-  status: {
-    type: String
-  }
+  status: { type: String }
 }));

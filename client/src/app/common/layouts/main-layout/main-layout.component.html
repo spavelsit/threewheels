@@ -1,0 +1,89 @@
+<div class="wrapper">
+  <div class="sidebar">
+    <div class="sidebar__header">
+
+      <p *ngIf="preloader">
+        Закупочная стоимость товара: <br>
+        {{variable.totalPrice.toLocaleString()}} руб.
+      </p>
+
+
+      <div class="progress" style="width: 80%;" *ngIf="!preloader">
+        <div class="indeterminate"></div>
+      </div>
+
+    </div>
+    <ul class="sidebar__items">
+      <li>
+        <a routerLinkActive="active"class="sidebar__item"><span style="display: flex; align-items: center; width: 100%; height: 100%;" [routerLink]="['/positions']">Магазин</span> <button class="waves-effect waves-light btn indigo" style="flex-shrink: 0;" (click)="onModalOpen()"><i class="material-icons">add</i></button></a>
+      </li>
+      <li *ngFor="let link of variable.links">
+        <a [routerLink]="[link.url]" routerLinkActive="active"class="sidebar__item">{{link.name}}</a>
+      </li>
+    </ul>
+    <div class="last">
+      <a class="sidebar__item red accent-4" (click)="onLogout()">Выйти</a>
+    </div>
+  </div>
+  <nav class="header__mnu">
+    <div class="nav-wrapper">
+      <div class="search">
+        <div class="input-field">
+          <input id="search" type="search" placeholder="Поиск по наименованию или артикулу товара" [(ngModel)]="inputSearch" (input)="onInputSearch($event)">
+          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          <i class="material-icons" (click)="onClearInputSearch()" *ngIf="inputSearch.length !== 0">close</i>
+        </div>
+      </div>
+      <ul id="nav-mobile" class="right">
+        <li><a><i class="material-icons" [ngClass]="{'red-text': variable.arrayOrders.length !== 0}">shopping_cart</i></a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<div class="modal" #modal>
+  <form [formGroup]="form" (ngSubmit)="onSubmitPosition()">
+    <div class="modal-content">
+      <h4 class="mb1">Добавить товар</h4>
+      <div class="input-field">
+        <input id="pos-name" type="text" formControlName="name"
+          [ngClass]="{invalid: form.get('name').invalid && form.get('name').touched}" />
+        <label for="pos-name">Название</label>
+      </div>
+      <div class="row">
+        <div class="input-field">
+          <input id="art-name" type="text" formControlName="article"
+            [ngClass]="{invalid: form.get('article').invalid && form.get('article').touched}" />
+          <label for="art-name">Артикул</label>
+        </div>
+        <div class="input-field">
+          <input id="que-cost" type="number" min="1" value="1" formControlName="quantity"
+            [ngClass]="{invalid: form.get('quantity').invalid && form.get('quantity').touched}" />
+          <label for="que-cost">Количество</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field">
+          <input id="art-cost" type="number" formControlName="cost"
+            [ngClass]="{invalid: form.get('cost').invalid && form.get('cost').touched}" />
+          <label for="art-cost">Цена закупки</label>
+        </div>
+        <div class="input-field">
+          <input id="orderCost" type="number" formControlName="orderCost"
+            [ngClass]="{invalid: form.get('orderCost').invalid && form.get('orderCost').touched}" />
+          <label for="orderCost">Цена продажи</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" (click)="onModalClose()" [disabled]="form.disabled"
+        class="modal-action waves-effect waves-black btn-flat">Отмена</button>
+      <button type="submit" [disabled]="form.invalid || form.disabled"
+        class="modal-action btn waves-effect">Добавить</button>
+    </div>
+  </form>
+</div>

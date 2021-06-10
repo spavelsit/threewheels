@@ -1,25 +1,20 @@
-<div class="login-page">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
-    <div class="form__body">
-      <div class="form-line">
-        <div class="form-group">
-          <label class="form-group__label">Почта:</label>
-          <input type="email" formControlName="email" placeholder="exemple@mail.ru" class="input-field" [ngClass]="{'error': form.get('email').invalid && form.get('email').touched}">
-        </div>
-      </div>
-      <div class="form-line">
-        <div class="form-group">
-          <label class="form-group__label">Пароль:</label>
-          <input type="password" formControlName="password" placeholder="*******" class="input-field" [ngClass]="{'error': form.get('password').invalid && form.get('password').touched}">
-        </div>
-      </div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="col s12 auth__form">
+  <h3 class="title">Авторизация</h3>
+  <div class="row">
+    <div class="input-field col s12" style="margin-top: 20px;">
+      <input id="email" type="email" class="validate" formControlName="email" [ngClass]="{'invalid': form.get('email').invalid && form.get('email').touched}">
+      <label for="email">E-mail:</label>
     </div>
-    <div class="form__footer">
-      <div class="form-line">
-        <div class="form-group">
-          <button class="button" [disabled]="form.invalid || form.disabled">Войти</button>
-        </div>
-      </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input id="password" type="password" class="validate" formControlName="password" [ngClass]="{'invalid': form.get('password').invalid && form.get('password').touched}">
+      <label for="password">Пароль:</label>
     </div>
-  </form>
-</div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <button class="btn waves-effect waves-light" type="submit" [disabled]="form.invalid || form.disabled">Войти</button>
+    </div>
+  </div>
+</form>

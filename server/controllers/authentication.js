@@ -19,12 +19,12 @@ module.exports.login = async (req, res) => {
         user_id: candidate._id,
       }, config.jwt, {expiresIn: '1 days'});
 
-      res.status(202).json({token: `Bearer ${token}`});
+      res.status(202).json({status: true, token: `Bearer ${token}`});
     } else {
-      res.status(401).json({message: 'The data is not correct'});
+      res.status(401).json({status: false, message: 'The data is not correct'});
     }
   } else {
-    res.status(401).json({message: 'The data is not correct'});
+    res.status(401).json({status: false, message: 'The data is not correct'});
   }
 };
 

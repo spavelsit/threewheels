@@ -3,33 +3,32 @@ const
   Schema    = mongoose.Schema;
 
 module.exports = mongoose.model('orders', new Schema({
-  order: {
-    type: Number,
-  },
-  sale: {
-    type: Number,
-    default: 0,
-  },
-  mechanic: {
-    type: String
-  },
-  percent: {
-    type: Number
-  },
+  order: { type: Number },
   date: {
     type: Date,
     default: Date.now
   },
-  list: [{
-    itemID: {
-      type: String,
-    },
-    name: {
-      type: String,
-    },
-    quantity: {
+  payment: {
+    all: { type: Number },
+    introduced: {
       type: Number,
-    },
+      default: 0
+    }
+  },
+  done: { type: Boolean },
+  sale: {
+    type: Number,
+    default: 0,
+  },
+  client: {
+    type: Schema.ObjectId,
+    ref: 'clientele'
+  },
+  list: [{
+    itemID: { type: String },
+    name: { type: String },
+    article: { type: String },
+    quantity: { type: Number },
     cost: {
       type: Number,
       default: 0,
@@ -38,8 +37,12 @@ module.exports = mongoose.model('orders', new Schema({
       type: Number,
       default: 0,
     },
-    type: {
-      type: String
-    },
+    workman: {
+      workman: {
+        type: Schema.ObjectId,
+        ref: 'workmans'
+      },
+      percent: { type: Number }
+    }
   }]
 }));

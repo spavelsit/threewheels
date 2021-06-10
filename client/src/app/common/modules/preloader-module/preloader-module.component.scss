@@ -1,0 +1,13 @@
+.preloader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  .preloader-wrapper.big {
+    width: 100px;
+    height: 100px;
+  }
+  .circle-clipper .circle {
+    border-width: 5px;
+  }
+}

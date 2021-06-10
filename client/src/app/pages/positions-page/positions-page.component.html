@@ -1,5 +1,92 @@
-<app-product-block *ngIf="type === 'product'"></app-product-block>
-<app-product-block *ngIf="type === 'colors'"></app-product-block>
+<table class="highlight " *ngIf="variable.preloaderPosition && variable.arrayPosition.length !== 0">
+  <thead>
+    <tr>
+      <th class="center" style="width: 130px;">Артикул</th>
+      <th>Наименование</th>
+      <th class="center" style="width: 175px;">Стоимость закупки</th>
+      <th class="center" style="width: 190px;">Стоимость продажи</th>
+      <th class="center" style="width: 115px;">Количество</th>
+      <th class="center" style="width: 200px;">Опции</th>
+    </tr>
+  </thead>
 
+  <tbody>
+    <tr *ngFor="let item of variable.arrayPosition">
+      <td class="center">{{item.article ? item.article : 'Отсутствует'}}</td>
+      <td class="name__product">{{item.name}}</td>
+      <td class="center">{{item.cost}}</td>
+      <td class="center">{{item.orderCost}}</td>
+      <td class="center">{{item.quantity}}</td>
+      <td class="center options">
+        <button class="waves-effect waves-light btn">
+          <fa-icon [icon]="faQrcode"></fa-icon>
+        </button>
+        <button class="waves-effect waves-light green btn" (click)="onModalOpen(item)">
+          <fa-icon [icon]="faEdit"></fa-icon>
+        </button>
+        <button class="waves-effect waves-light pink btn" (click)="orderService.addItemCart(item)" [disabled]="item.quantity === 0">
+          <fa-icon [icon]="faCartPlus"></fa-icon>
+        </button>
+      </td>
+    </tr>
 
-<app-cart-module></app-cart-module>
+  </tbody>
+</table>
+
+<app-loader-more-module *ngIf="!loaderMore"></app-loader-more-module>
+
+<h2 style="text-align: center; margin-top: 50px;"
+  *ngIf="variable.preloaderPosition && variable.arrayPosition.length === 0">В магазине отсутствует товар</h2>
+
+<div class="loadMore">
+  <button *ngIf="loaderMore && variable.preloaderPosition && !variable.noMorePosition"
+    class="waves-effect waves-light btn " (click)="loadMore()">Загрузить еще</button>
+</div>
+
+<app-preloader-module *ngIf="!variable.preloaderPosition"></app-preloader-module>
+
+<div class="modal" #modal>
+  <form [formGroup]="form" (ngSubmit)="onSubmitPosition()">
+    <div class="modal-content">
+      <h4 class="mb1">Изменить товар</h4>
+      <div class="input-field">
+        <input id="pos-name" type="text" formControlName="name"
+          [ngClass]="{invalid: form.get('name').invalid && form.get('name').touched}" />
+        <label for="pos-name">Название</label>
+      </div>
+      <div class="row">
+        <div class="input-field">
+          <input id="art-name" type="text" formControlName="article"
+            [ngClass]="{invalid: form.get('article').invalid && form.get('article').touched}" />
+          <label for="art-name">Артикул</label>
+        </div>
+        <div class="input-field">
+          <input id="que-cost" type="number" min="1" value="1" formControlName="quantity"
+            [ngClass]="{invalid: form.get('quantity').invalid && form.get('quantity').touched}" />
+          <label for="que-cost">Количество</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field">
+          <input id="art-cost" type="number" formControlName="cost"
+            [ngClass]="{invalid: form.get('cost').invalid && form.get('cost').touched}" />
+          <label for="art-cost">Цена закупки</label>
+        </div>
+        <div class="input-field">
+          <input id="orderCost" type="number" formControlName="orderCost"
+            [ngClass]="{invalid: form.get('orderCost').invalid && form.get('orderCost').touched}" />
+          <label for="orderCost">Цена продажи</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" (click)="onDeletePosition()" [disabled]="form.disabled"
+        class="modal-action waves-effect waves-light btn left red">Удалить товар</button>
+      <button type="button" (click)="onModalClose()" [disabled]="form.disabled"
+        class="modal-action waves-effect waves-black btn-flat">Отмена</button>
+      <button type="submit" [disabled]="form.invalid || form.disabled"
+        class="modal-action btn waves-effect">Сохранить</button>
+    </div>
+  </form>
+</div>

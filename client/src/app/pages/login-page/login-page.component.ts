@@ -1,24 +1,32 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/common/services/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
-import { MaterialService } from 'src/app/shared/classes/material.service';
+import { MaterialService } from 'src/app/common/utils/material.service';
+import { VariableService } from 'src/app/common/services/variable.service';
 
 @Component({
   selector: 'app-login-page',
-  templateUrl: './login-page.component.html'
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
-  aSub: Subscription;
+  oSub: Subscription;
 
-  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private variable: VariableService
+  ) { }
+
   ngOnInit() {
-
     if (this.auth.isAuthenticated()) {
-      this.router.navigate(['/home']);
+      this.router.navigate([this.variable.homePage]);
+      return;
     }
 
     this.form = new FormGroup({
@@ -27,28 +35,28 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     });
 
     this.route.queryParams.subscribe((params: Params) => {
-      if (params.accessDenied) {
-        MaterialService.toast('Для начала нужно авторизироваться');
-      } else if (params.sessionFailed) {
-        MaterialService.toast('Пожалуйста войдите в систему заного');
+      if (params.access === 'denied') {
+        MaterialService.toast('Доступ запрещен. Для начала нужно авторизироваться');
+      } else if (params.session === 'expire') {
+        MaterialService.toast('Сессия истекла. Войдите в систему заного');
       }
     });
   }
 
   onSubmit() {
     this.form.disable();
-    this.aSub = this.auth.login(this.form.value).subscribe(
-      () => this.router.navigate(['/home']),
+
+    this.oSub = this.auth.login(this.form.value).subscribe(
+      () => this.router.navigate([this.variable.homePage]),
       error => {
-        MaterialService.toast(error.error.message);
+        MaterialService.toast('Проверьте правильность введенных данных');
         this.form.enable();
       }
     );
   }
 
   ngOnDestroy() {
-    if (this.aSub) {
-      this.aSub.unsubscribe();
-    }
+    if (this.oSub) { this.oSub.unsubscribe(); }
   }
+
 }
